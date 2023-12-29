@@ -1,0 +1,76 @@
+#left{
+    /* color: black; */
+    transition: color 2.8s ease-out;
+}
+.navbar{
+    z-index: 50;
+}
+.navbar::before{
+    height: 310px;
+    /* opacity: 1; */
+    /* background: linear-gradient(45deg,#ff357a,#fff172); */
+    transition: all 2.8s ease-out;
+}
+#right{
+    opacity: 1;
+    display: flex;
+}
+.navb-1{
+    animation-duration: 0.4s;
+    animation-name: demo;
+    animation-fill-mode: forwards;
+}
+.navb-2{
+    animation-delay: 0.4s;
+    animation-duration: 0.4s;
+    animation-name: demo;
+    animation-fill-mode: forwards;
+}
+.navb-3{
+   animation-delay: 0.8s;
+   animation-duration: 0.4s;
+   animation-name: demo;
+   animation-fill-mode: forwards;
+}
+.navb-4{
+    animation-delay: 1.2s;
+    animation-duration: 0.4s;
+    animation-name: demo;
+    animation-fill-mode: forwards;
+}
+.navb-5{
+    animation-delay: 1.6s;
+    animation-duration: 0.4s;
+    animation-name: demo;
+    animation-fill-mode: forwards;
+}
+.navb-6{
+    animation-delay: 2s;
+    animation-duration: 0.4s;
+    animation-name: demo;
+    animation-fill-mode: forwards;
+}
+.navb-7{
+    animation-delay: 2.4s;
+    animation-duration: 0.4s;
+    animation-name: demo;
+    animation-fill-mode: forwards;
+}
+
+.navbar li a:hover{
+    padding: 2px 30vw;
+}
+@keyframes demo{
+    25% {
+        opacity: .25;
+      }
+      50% {
+        opacity: .5;
+      }
+      75% {
+        opacity: .75;
+      }
+      100% {
+        opacity: 1;
+      }    
+}

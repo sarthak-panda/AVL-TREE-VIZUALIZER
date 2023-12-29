@@ -1,0 +1,371 @@
+@import url('https://fonts.googleapis.com/css2?family=Single+Day&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Poppins:wght@500&display=swap&effect=shadow-multiple|fire-animation|neon|3d-float|anaglyph');
+*{
+    padding: 0;
+    margin: 0;
+}
+html{
+    font-family: 'Baloo Bhai 2', sans-serif;
+    color: white;
+}
+
+.navbar{
+    display: block;
+    color: white;     
+    position: fixed;    
+    font-size: 1rem;  
+    top: 0px; 
+    left: 0px;
+    width: 100%;
+    height: 85px;
+    z-index: 1;
+    box-sizing: border-box;  
+    
+    /* border: 2px solid blue//////////////////////////////////////////////////// */
+}
+.navbar::before{
+    background-color: black;
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 85px;
+    z-index: -4;
+    opacity: 0.5;    
+           
+}
+.navbar li{
+    list-style: none;
+    box-sizing: border-box;
+    width: 20%;  
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    margin-inline: 20px; 
+    
+}
+.navbar ul{
+    display: flex;
+}
+
+                  
+#right{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    /* margin-left: -2.5rem; */
+    margin-top: 14px;
+}
+#left{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    /* padding-left: 69px; */
+    font-weight: bold;
+    color: gold;
+    text-shadow: 0 0 10px gold, 0 0 20px gold, 0 0 30px gold;
+}
+.content::before{
+    background: url('../bg.jpg') no-repeat center center/cover;
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -5;
+    opacity: 1;
+    animation: animateBg 5s linear infinite;
+}
+@keyframes animateBg{
+    0%,100%{
+        transform: scale(1);
+    }
+    50%{
+        transform: scale(1.2);
+    }
+}
+#picture{
+    grid-area: pic;
+    width: 19.5rem; 
+    box-sizing: border-box;          
+}
+#description{
+    grid-area: des;
+}
+/* .content{
+    position: relative;
+    display: grid;
+    grid-gap: 0.3rem;
+    grid-template-areas: 
+    'pic des des des'
+    ;
+} */
+#description section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.button{
+    /* color: gold;
+    background-color: white; */
+    background: linear-gradient(150deg,rgb(214,240,68),rgb(47,147,218));
+    color: #000;
+    border-radius: 23px;
+    padding: 2px 9px;
+    text-align: center;
+    font-family: 'Baloo Bhai 2', sans-serif;
+    padding: 0px 5px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.8);
+    /* cursor: pointer; */
+}
+.hover{
+    cursor: pointer;
+}
+.navb{
+    width: 80px;
+}
+#check{
+    width: 130px;
+    
+}
+#resetPositionButton{
+    width: 120px;
+}
+#insert,#delete,#find{
+    font-family: 'Baloo Bhai 2', sans-serif;
+    border-radius: 10px;
+    color: red;
+    text-shadow: 0 0 10px purple, 0 0 20px red, 0 0 30px orange;
+}
+@media only screen and ((max-width:670px) or (max-height:375px)){
+    .content{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        /*grid-gap: 0.3rem;*/
+        /* grid-template-areas: 
+        'pic'
+        'des'
+        ;  */
+        justify-content: center;
+        align-items: center;
+    }    
+}
+@media only screen and (max-width:1024px){
+    /* .navbar{
+        display: flex;
+        flex-direction: column;
+        border: 2px solid blue; 
+        
+    }
+    #right{
+        /* display: flex; 
+        flex-direction: column;
+        border: 2px solid red; 
+        
+    } */
+    .navbar ul{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .navbar li{
+        padding-top: 5px;
+    }
+    .burger{
+        position: absolute;
+        cursor: pointer;
+        right: 3%;  
+        top: 2px;
+        border: 2px solid white;
+        border-radius: 4px;
+    }
+    .line{
+        width: 25px;
+        background-color: grey;
+        height: 2.5px;
+        margin: 3px 3px;
+    }
+    .navbar{
+        /* border: 2px solid blue; */
+        height: 60px;
+    }
+    .navbar::before{
+        /* border: 2px solid red; */
+        height: 45px;
+    }
+    #right{
+        opacity: 0;
+        display: none;
+    }
+    .navb-1,.navb-2,.navb-3,.navb-4,.navb-5,.navb-6,.navb-7{
+        opacity: 0;
+    }
+
+}
+@media only screen and (max-width:300px){
+    .burger{
+        right: 12%;
+    }
+    #left{
+        margin-left: -58px;
+    }
+    .navbar{
+        margin-left: 1.6rem;
+    }
+    #img{
+        /* border: 2px solid purple; */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    #quote{
+        margin-left: 0;
+    }
+    #x{
+        padding-right: 0;
+    }
+    #y{
+        margin-left: 0;
+    }
+    #description{
+        margin-left: 3rem;
+    }
+    #right{
+        margin-left: -2.5rem;
+    }
+}
+@media only screen and ((max-width:430px) or (max-height:555px)){
+    .spoke{
+        height: 20vh;
+    }
+    .sphere-wrapper{
+        width: 40vh;
+        height: 35vh;
+    }
+}
+.node{
+    border-radius: 50%;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: greenyellow;
+    box-shadow: 0 0 15px gold;
+    text-shadow: 0 0 15px green;
+    height: 60px;
+    width: 84px; 
+    overflow: hidden;  
+    /* z-index: 20; */
+    position: absolute;
+    top: 100px;
+    /* padding: 0 12px; */
+    text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
+    cursor: grab;
+}
+.content{
+    display: flex;
+    justify-content: center;
+    
+}
+canvas{
+    /* border: 4px solid red; */
+    position: absolute;
+}
+#a{
+    left: 46vw;
+}
+#b{
+    top: calc(100px + 10vh);
+    left: 51vw;
+    
+}
+#c{
+    top: calc(100px + 10vh);
+    left: 41vw;
+}
+.instructions{
+    display: none;
+}
+/* .navbar{
+    display: none;
+} */
+
+.cont {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Optional: Set a height to make it full height */
+    position: absolute;
+    width: 100vw;
+    font-family: 'Single Day', cursive;
+    color: red;
+}
+
+
+
+/* Optional: Add some styling to make it look better */
+.points {
+    max-width: 600px;
+    text-align: left;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 356px;
+    height: 103px;
+
+    overflow-y: scroll;
+
+}
+.button1{
+    /* color: gold;
+    background-color: white; */
+    position: fixed;
+    background: linear-gradient(150deg,rgb(214,240,68),rgb(47,147,218));
+    color: #000;
+    border-radius: 23px;
+    padding: 2px 9px;
+    text-align: center;
+    font-family: 'Baloo Bhai 2', sans-serif;
+    padding: 0px 5px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.8);
+    cursor: pointer; 
+    right: 5px;
+    bottom: 5px;
+    
+}
+#canvas1{
+    position: absolute;
+    /*border: 2px solid red;
+    /*width: 100vw;
+    height: 100vh;*/
+}
+@media only screen and (max-width:445px){
+    .points{
+        width: 200px;
+    }
+}
+@media only screen and (max-width:300px){
+    .points{
+        width: 150px;
+    }
+    .cont{
+        margin-left: 35px;
+    }
+}
+::-webkit-scrollbar{
+    width: 8px;
+}
+::-webkit-scrollbar-thumb{
+    background: linear-gradient(to top,#008aff,#00ffe7);
+    border-radius: 4px;
+}

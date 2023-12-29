@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2&family=Baloo+Bhaina+2&family=Bree+Serif&family=Ephesis&display=swap" rel="stylesheet">   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>  
+    <link rel="stylesheet" href="css/style.css">
+    <link id="toggleburger" rel="stylesheet" href="#"> 
+</head>
+<body>
+    <div class="instructions">
+        <canvas id="canvas1"></canvas>
+        <div class="cont">
+            <div id="heading"><h3>Instructions</h3></div>
+            <div class="points">
+                <ol>
+                    <li>You can enter up to 9-digit characters. In default mode, you can only enter valid numbers (including floats and negatives). If you enable ASCII character mode, the comparison will be in lexicographic order, allowing you to insert any character.</li>
+                    <li>We have a default way of positioning the nodes. You may drag them to a new position if needed.</li>
+                    <li>Reset initializes to the initial condition.</li>
+                    <li>You may use the Enter key as a keyboard shortcut to register data, instead of using a button.</li>
+                    <li>If you want to learn about AVL Trees, you may refer to Cormen's Algorithms book.</li>
+                    <li>For better rendering, it is preferable to use larger screens.</li>
+                    
+    
+                </ol>
+            </div>
+        </div>
+        <button id="return" class="button1">Got it!</button>
+    </div>
+    <div class="loaded">
+    <nav class="navbar">
+        <div id="left">
+            AVL Tree (by Sarthak Panda)
+            <div id="burgerbutton" class="burger">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+        </div>
+        <div id="right">
+            <ul>
+                <li><input type="text" id="insert" class="navb navb-1" placeholder=""><button id="ibtn" class="button hover navb-1">Insert</button></li>
+                <li><input type="text" id="delete" class="navb navb-2" placeholder=""><button id="dbtn" class="button hover navb-2">Delete</button></li>
+                <li><input type="text" id="find" class="navb navb-3" placeholder=""><button id="fbtn" class="button hover navb-3">Find</button></li>
+                <li><button for="myCheckbox" id="check" class="button navb-4">ASCII characters:</button>
+                    <input type="checkbox" id="myCheckbox" class="hover navb-4"/>
+                </li>    
+                <li> <button id="resetButton" class="button hover navb-5">Reset</button></li>     
+                <li><button id="resetPositionButton" class="button hover navb-6">Reset Position</button></li>
+                <li><button id="instructionsButton" class="button hover navb-7">Instructions</button></li>
+            </ul>
+        </div>
+    </nav>
+    <canvas id="canvas"></canvas>
+    <div class="content">
+    </div>
+</div>
+    <script src="js/resp.js"></script>
+    <script src="js/ram.js"></script>
+</body>
+</html>
