@@ -241,48 +241,51 @@ function setDraggableCursorForNodes() {
 		});
 	});
 }
-let chooseElement;
-
-const move = function(element) {
+var move = function(element) {
     setDraggableCursorForNodes();
 
-    const canvas = document.querySelector("#canvas");
+    var canvas = document.querySelector("#canvas");
 
     if (!canvas) {
         console.error("Canvas element not found");
         return;
     }
 
-    const canvasRect = canvas.getBoundingClientRect();
-    const elements = document.querySelectorAll(".node");
+    var canvasRect = canvas.getBoundingClientRect();
+    var elements = document.querySelectorAll(".node");
+    var currentElement = null;
 
-    const startDragging = (e) => {
+    var startDragging = function(e) {
         e.preventDefault();
-        const currentElement = e.target.closest(".node");
+        currentElement = e.target.closest(".node");
 
         if (currentElement) {
             currentElement.style.position = "absolute";
-            chooseElement = currentElement;
 
-            const moveHandler = (e) => {
-                const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-                const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            var moveHandler = function(e) {
+                var clientX, clientY;
 
-                if (clientX !== undefined && clientY !== undefined) {
-                    const maxX = canvasRect.right - chooseElement.clientWidth;
-                    const maxY = canvasRect.bottom - chooseElement.clientHeight;
-
-                    const restrictedX = Math.min(Math.max(clientX - 42, canvasRect.left), maxX);
-                    const restrictedY = Math.min(Math.max(clientY - 30, canvasRect.top), maxY);
-
-                    chooseElement.style.left = restrictedX + "px";
-                    chooseElement.style.top = restrictedY + "px";
-                    connect();
+                if (e.type === "touchmove") {
+                    clientX = e.touches[0].clientX;
+                    clientY = e.touches[0].clientY;
+                } else {
+                    clientX = e.pageX;
+                    clientY = e.pageY;
                 }
+
+                var maxX = canvasRect.right - currentElement.clientWidth;
+                var maxY = canvasRect.bottom - currentElement.clientHeight;
+
+                var restrictedX =Math.min(Math.max(clientX - 42, canvasRect.left), maxX);
+                var restrictedY = Math.min(Math.max(clientY - 30, canvasRect.top), maxY);
+
+                currentElement.style.left = restrictedX + "px";
+                currentElement.style.top = restrictedY + "px";
+                connect();
             };
 
-            const endDragging = () => {
-                chooseElement = null;
+            var endDragging = function() {
+                currentElement = null;
                 document.removeEventListener("mousemove", moveHandler);
                 document.removeEventListener("touchmove", moveHandler);
                 document.removeEventListener("mouseup", endDragging);
@@ -296,7 +299,7 @@ const move = function(element) {
         }
     };
 
-    elements.forEach(element => {
+    elements.forEach(function(element) {
         element.addEventListener("mousedown", startDragging);
         element.addEventListener("touchstart", startDragging, { passive: false });
     });
