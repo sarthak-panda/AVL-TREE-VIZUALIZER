@@ -318,7 +318,8 @@ function getElementPosition(el) {
 
 window.addEventListener('resize', function() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+	canvas.width=window.innerWidth;
+	canvas.Height=window.innerHeight;
 	if (avl.root !== null) {
 		avl.canvasResize();
 	}
