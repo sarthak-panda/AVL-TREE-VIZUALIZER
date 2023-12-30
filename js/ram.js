@@ -7,52 +7,70 @@ Findbtn = document.getElementById('fbtn');
 var targetElement = document.querySelector('.content');
 let time = 0;
 var checkbox = document.getElementById('myCheckbox');
+
 checkbox.addEventListener('change', clear);
 Insert.addEventListener('input', function() {
-	if(!checkbox.checked) {
+	if (!checkbox.checked) {
 		var inputValue = Insert.value;
+
 		inputValue = inputValue.replace(/[^\d.-]/g, '');
+
 		var hasNegativeSign = inputValue.indexOf('-') === 0;
 		inputValue = inputValue.replace(/-/g, '');
-		if(hasNegativeSign) {
+		if (hasNegativeSign) {
 			inputValue = '-' + inputValue;
 		}
+
 		var maxDigits = hasNegativeSign ? 10 : 9;
+
 		var decimalIndex = inputValue.indexOf('.');
 		var hasDecimalDigit = decimalIndex !== -1 && (/\d/.test(inputValue.slice(decimalIndex + 1)) || inputValue.indexOf('.', decimalIndex + 1) !== -1);
+
 		var parts = hasDecimalDigit ? inputValue.split('.') : [inputValue];
 		var integerPart = parts[0] || '0';
 		var decimalPart = parts.length > 1 ? '.' + parts[1] : '';
-		if(decimalIndex !== -1 && inputValue.indexOf('.', decimalIndex + 1) !== -1) {
+
+		if (decimalIndex !== -1 && inputValue.indexOf('.', decimalIndex + 1) !== -1) {
+
 			var secondDecimalIndex = inputValue.indexOf('.', decimalIndex + 1);
 			decimalPart = '.' + inputValue.slice(decimalIndex + 1, secondDecimalIndex);
+
 		}
+
 		var totalLength = integerPart.length + decimalPart.length + (hasNegativeSign ? 1 : 0);
-		if(totalLength > maxDigits) {
-			if(decimalPart !== '') {
+		if (totalLength > maxDigits) {
+			if (decimalPart !== '') {
+
 				var remainingDigits = maxDigits - (hasNegativeSign ? 1 : 0);
 				decimalPart = decimalPart.slice(0, remainingDigits - integerPart.length);
 			} else {
+
 				integerPart = integerPart.slice(0, maxDigits - (hasNegativeSign ? 1 : 0));
 			}
 		}
+
 		Insert.value = inputValue === '' ? '' : (integerPart || '0') + decimalPart;
 	} else {
 		var inputValue = Insert.value;
+
 		inputValue = inputValue.slice(0, 9);
+
 		Insert.value = inputValue === '' ? '' : inputValue;
 	}
 });
+
 Insert.addEventListener('keydown', function(event) {
-	if(!checkbox.checked) {
-		if(event.key === 'Backspace') {
+	if (!checkbox.checked) {
+
+		if (event.key === 'Backspace') {
 			return;
 		}
-		if(!/[\d.-]/.test(event.key)) {
+
+		if (!/[\d.-]/.test(event.key)) {
 			event.preventDefault();
 		}
 	} else {
-		if(event.key === 'Backspace') {
+		if (event.key === 'Backspace') {
 			return;
 		}
 	}
@@ -61,7 +79,8 @@ Insert.addEventListener('keydown', function(event) {
 function insert_helper() {
 	let str = Insert.value;
 	Insert.value = "";
-	if(checkbox.checked) {
+
+	if (checkbox.checked) {
 		avl.insert(str);
 	} else {
 		var num = parseFloat(str);
@@ -69,13 +88,36 @@ function insert_helper() {
 	}
 }
 Insert.addEventListener('keydown', (event) => {
-	if(event.key === 'Enter') {
+
+	if (event.key === 'Enter') {
+
 		event.preventDefault();
 		document.getElementById('ibtn').disabled = 1;
+
 		var inputValue = Insert.value;
-		if(inputValue !== '' && inputValue !== '-') {
+
+		if (inputValue !== '' && inputValue !== '-') {
+
 			insert_helper();
 		} else {
+
+			console.log('Input value is empty. Please enter a value.');
+		}
+	}
+});
+Insert.addEventListener('keyup', (event) => {
+	if (event.key === 'Enter' || event.keyCode === 13) {
+
+		event.preventDefault();
+		document.getElementById('ibtn').disabled = true;
+
+		var inputValue = Insert.value;
+
+		if (inputValue !== '' && inputValue !== '-') {
+
+			insert_helper();
+		} else {
+
 			console.log('Input value is empty. Please enter a value.');
 		}
 	}
@@ -84,46 +126,68 @@ Insert.addEventListener('keydown', (event) => {
 function delete_helper() {
 	let str = Delete.value;
 	Delete.value = "";
+
 	let z;
-	if(checkbox.checked) {
+	if (checkbox.checked) {
 		z = avl.remove(str);
 	} else {
 		var num = parseFloat(str);
 		z = avl.remove(num);
 	}
-	if(z === "NOT FOUND!") {
+	if (z === "NOT FOUND!") {
 		Delete.value = "NOT FOUND!";
 		setTimeout(function() {
 			Delete.value = "";
 		}, 1000)
-	} else {
-        Delete.value = "DONE!";
-		setTimeout(function() {
-			Delete.value = "";
-		}, 1000)
-    }
+
+	}
 }
 Delete.addEventListener('keydown', (event) => {
-	if(event.key === 'Enter') {
+
+	if (event.key === 'Enter') {
+
 		event.preventDefault();
+
 		var inputValue = Delete.value;
-		if(inputValue !== '') {
+
+		if (inputValue !== '') {
+
 			delete_helper();
-		} else {}
+		} else {
+
+		}
+	}
+});
+Delete.addEventListener('keyup', (event) => {
+	if (event.key === 'Enter' || event.keyCode === 13) {
+
+		event.preventDefault();
+		document.getElementById('ibtn').disabled = true;
+
+		var inputValue = Delete.value;
+
+		if (inputValue !== '') {
+
+			delete_helper();
+		} else {
+
+			console.log('Input value is empty. Please enter a value.');
+		}
 	}
 });
 
 function find_helper() {
 	let str = Find.value;
 	Find.value = "";
+
 	let z;
-	if(checkbox.checked) {
+	if (checkbox.checked) {
 		z = avl.search(str);
 	} else {
 		var num = parseFloat(str);
 		z = avl.search(num);
 	}
-	if(z === "FOUND!") {
+	if (z === "FOUND!") {
 		Find.value = "FOUND!";
 		setTimeout(function() {
 			Find.value = "";
@@ -136,12 +200,35 @@ function find_helper() {
 	}
 }
 Find.addEventListener('keydown', (event) => {
-	if(event.key === 'Enter') {
+
+	if (event.key === 'Enter') {
+
 		event.preventDefault();
+
 		var inputValue = Find.value;
-		if(inputValue !== '') {
+
+		if (inputValue !== '') {
+
 			find_helper();
 		} else {
+
+			console.log('Input value is empty. Please enter a value.');
+		}
+	}
+});
+Find.addEventListener('keyup', (event) => {
+	if (event.key === 'Enter' || event.keyCode === 13) {
+
+		event.preventDefault();
+		document.getElementById('ibtn').disabled = true;
+
+		var inputValue = Find.value;
+
+		if (inputValue !== '') {
+
+			find_helper();
+		} else {
+
 			console.log('Input value is empty. Please enter a value.');
 		}
 	}
@@ -153,8 +240,10 @@ Findbtn.addEventListener('click', find_helper);
 function updateInsertButtonState() {
 	var inputValue = Insert.value;
 	var isDisabled = (inputValue === '' || inputValue === '-');
+
 	document.getElementById('ibtn').disabled = isDisabled;
 }
+
 Insert.addEventListener('click', updateInsertButtonState);
 Insert.addEventListener('input', updateInsertButtonState);
 window.addEventListener('DOMContentLoaded', () => {
@@ -163,16 +252,19 @@ window.addEventListener('DOMContentLoaded', () => {
 document.getElementById('ibtn').addEventListener('click', () => {
 	document.getElementById('ibtn').disabled = 1;
 })
+
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+
 var connectors = [];
 
 function createConnection(fromId, toId, direction) {
 	var fromElement = document.getElementById(fromId);
 	var toElement = document.getElementById(toId);
-	if(fromElement && toElement) {
+
+	if (fromElement && toElement) {
 		connectors.push({
 			from: fromElement,
 			to: toElement,
@@ -188,21 +280,25 @@ function destroyConnection(fromId, toId) {
 	connectors = connectors.filter(connector => {
 		return !(connector.from.id === fromId && connector.to.id === toId);
 	});
+
 	connect();
 }
 
 function connect() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	for(var i = 0; i < connectors.length; i++) {
+	for (var i = 0; i < connectors.length; i++) {
 		var c = connectors[i];
 		var pos1 = getElementPosition(c.from);
 		var pos2 = getElementPosition(c.to);
+
 		ctx.beginPath();
-		if(c.direction === 'R') {
+
+		if (c.direction === 'R') {
 			ctx.moveTo(pos1.left + c.from.offsetWidth - 5, pos1.top + c.from.offsetHeight / 2);
 		} else {
 			ctx.moveTo(pos1.left + 5, pos1.top + c.from.offsetHeight / 2);
 		}
+
 		ctx.lineTo(pos2.left + c.to.offsetWidth / 2, pos2.top + 5);
 		ctx.strokeStyle = "red";
 		ctx.lineWidth = 3;
@@ -219,20 +315,22 @@ function getElementPosition(el) {
 		top: rect.top + window.scrollY
 	};
 }
+
 window.addEventListener('resize', function() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
-	if(avl.root !== null) {
+
+	if (avl.root !== null) {
 		avl.canvasResize();
 	}
 });
 
 function setDraggableCursorForNodes() {
 	const nodeElements = document.querySelectorAll('.node');
+
 	nodeElements.forEach((element) => {
 		element.addEventListener('mousedown', () => {
 			element.style.cursor = 'grabbing';
+
 			document.addEventListener('mouseup', () => {
 				element.style.cursor = 'grab';
 			}, {
@@ -241,69 +339,100 @@ function setDraggableCursorForNodes() {
 		});
 	});
 }
+
+var chooseElement;
+
 var move = function(element) {
-    setDraggableCursorForNodes();
+	setDraggableCursorForNodes();
 
-    var canvas = document.querySelector("#canvas");
+	var canvas = document.querySelector("#canvas");
 
-    if (!canvas) {
-        console.error("Canvas element not found");
-        return;
-    }
+	if (!canvas) {
+		console.error("Canvas element not found");
+		return;
+	}
 
-    var canvasRect = canvas.getBoundingClientRect();
-    var elements = document.querySelectorAll(".node");
-    var currentElement = null;
+	var elements = document.querySelectorAll(".node");
+	var currentElement = null;
 
-    var startDragging = function(e) {
-        e.preventDefault();
-        currentElement = e.target.closest(".node");
+	var startDragging = function(e) {
+		e.preventDefault();
+		currentElement = e.target.closest(".node");
 
-        if (currentElement) {
-            currentElement.style.position = "absolute";
+		if (currentElement) {
+			currentElement.style.position = "absolute";
 
-            var moveHandler = function(e) {
-                var clientX, clientY;
+			var moveHandler = function(e) {
+				var clientX, clientY;
 
-                if (e.type === "touchmove") {
-                    clientX = e.touches[0].clientX;
-                    clientY = e.touches[0].clientY;
-                } else {
-                    clientX = e.pageX;
-                    clientY = e.pageY;
-                }
+				if (e.type === "touchmove") {
+					clientX = e.touches[0].pageX;
+					clientY = e.touches[0].pageY;
+				} else {
+					clientX = e.pageX;
+					clientY = e.pageY;
+				}
 
-                var maxX = canvasRect.right - currentElement.clientWidth;
-                var maxY = canvasRect.bottom - currentElement.clientHeight;
+				var maxX = canvas.width - currentElement.clientWidth;
+				var maxY = canvas.height - 60;
 
-                var restrictedX =Math.min(Math.max(clientX - 42, canvasRect.left), maxX);
-                var restrictedY = Math.min(Math.max(clientY - 30, canvasRect.top), maxY);
+				var restrictedX = Math.min(Math.max(clientX - 42, 0), maxX);
+				var restrictedY = Math.min(Math.max(clientY - 30, 0), maxY);
 
-                currentElement.style.left = restrictedX + "px";
-                currentElement.style.top = restrictedY + "px";
-                connect();
-            };
+				currentElement.style.left = restrictedX + "px";
+				currentElement.style.top = restrictedY + "px";
+				connect();
+			};
 
-            var endDragging = function() {
-                currentElement = null;
-                document.removeEventListener("mousemove", moveHandler);
-                document.removeEventListener("touchmove", moveHandler);
-                document.removeEventListener("mouseup", endDragging);
-                document.removeEventListener("touchend", endDragging);
-            };
+			var endDragging = function() {
+				currentElement = null;
+				document.removeEventListener("mousemove", moveHandler);
+				document.removeEventListener("touchmove", moveHandler);
+				document.removeEventListener("mouseup", endDragging);
+				document.removeEventListener("touchend", endDragging);
+			};
 
-            document.addEventListener("mousemove", moveHandler);
-            document.addEventListener("touchmove", moveHandler, { passive: false });
-            document.addEventListener("mouseup", endDragging);
-            document.addEventListener("touchend", endDragging);
-        }
-    };
+			document.addEventListener("mousemove", moveHandler);
+			document.addEventListener("touchmove", moveHandler, {
+				passive: false
+			});
+			document.addEventListener("mouseup", endDragging);
+			document.addEventListener("touchend", endDragging);
+		}
+	};
 
-    elements.forEach(function(element) {
-        element.addEventListener("mousedown", startDragging);
-        element.addEventListener("touchstart", startDragging, { passive: false });
-    });
+	elements.forEach(function(element) {
+		element.addEventListener("mousedown", startDragging);
+		element.addEventListener("touchstart", startDragging, {
+			passive: false
+		});
+	});
 };
+
+function addDragListeners() {
+	const elements = document.querySelectorAll(".node");
+	let g = -1;
+	elements.forEach(nodeElement => {
+		nodeElement.addEventListener("click", (e) => {
+			if (e.pointerType === "touch") {
+
+				console.log(45);
+				g = 0;
+			} else if (e.pointerType === "mouse") {
+
+				console.log(90);
+				g = 1;
+			}
+
+			console.log("Inside event listener:", g);
+		});
+	});
+
+	console.log("Outside event listener:", g);
+
+	return g;
+}
+
 class BinaryTreeNode {
 	constructor(value) {
 		this.value = value;
@@ -313,159 +442,189 @@ class BinaryTreeNode {
 		this.height = 0;
 		this.id = 0;
 	}
+
 	LeftLeftRotation() {
 		const y = this.right;
 		const T2 = y.left;
 		let p = 0;
-		if(this.parent !== null) {
-			if(this.parent.left === this) {
+		if (this.parent !== null) {
+			if (this.parent.left === this) {
+
 				this.parent.left = y;
 				createConnection(this.parent.id, y.id, 'L');
 			} else {
+
 				this.parent.right = y;
 				createConnection(this.parent.id, y.id, 'R');
 			}
 		}
+
 		y.parent = this.parent;
-		if(this.parent !== null) {
+		if (this.parent !== null) {
 			destroyConnection(this.parent.id, this.id);
 		}
 		y.left = this;
 		destroyConnection(this.id, y.id);
 		createConnection(y.id, this.id, 'L');
 		this.parent = y;
-		if(T2 !== null) {
+		if (T2 !== null) {
 			destroyConnection(y.id, T2.id);
 		}
 		this.right = T2;
-		if(T2 !== null) {
+		if (T2 !== null) {
 			createConnection(this.id, T2.id, 'R');
 		}
-		if(T2 !== null) {
+
+		if (T2 !== null) {
 			T2.parent = this;
 		}
+
 		let h1 = (this.left !== null) ? this.left.height : -1;
 		let h2 = (T2 !== null) ? T2.height : -1;
 		let h3 = (y.right !== null) ? y.right.height : -1;
+
 		this.height = Math.max(h1, h2) + 1;
 		y.height = Math.max(this.height, h3) + 1;
+
 		return y;
 	}
+
 	RightRightRotation() {
 		const y = this.left;
 		const T3 = y.right;
-		if(this.parent !== null) {
-			if(this.parent.left === this) {
+
+		if (this.parent !== null) {
+			if (this.parent.left === this) {
+
 				this.parent.left = y;
 				createConnection(this.parent.id, y.id, 'L');
 			} else {
+
 				this.parent.right = y;
 				createConnection(this.parent.id, y.id, 'R');
 			}
 		}
+
 		y.parent = this.parent;
-		if(this.parent !== null) {
+		if (this.parent !== null) {
 			destroyConnection(this.parent.id, this.id);
 		}
 		y.right = this;
 		destroyConnection(this.id, y.id);
 		createConnection(y.id, this.id, 'R');
 		this.parent = y;
-		if(T3 !== null) {
+		if (T3 !== null) {
 			destroyConnection(y.id, T3.id);
 		}
 		this.left = T3;
-		if(T3 !== null) {
+		if (T3 !== null) {
 			createConnection(this.id, T3.id, 'L');
 		}
+
 		let h1 = (this.right !== null) ? this.right.height : -1;
 		let h2, h3;
-		if(T3 !== null) {
+
+		if (T3 !== null) {
 			T3.parent = this;
 			h2 = T3.height;
 		} else {
 			h2 = -1;
 		}
-		if(y.left !== null) {
+
+		if (y.left !== null) {
 			h3 = y.left.height;
 		} else {
 			h3 = -1;
 		}
+
 		this.height = Math.max(h1, h2) + 1;
 		y.height = Math.max(this.height, h3) + 1;
+
 		return y;
 	}
+
 	LeftRightRotation() {
 		const y = this.right;
 		const x = y.left;
 		const T2 = x.left;
 		const T3 = x.right;
-		if(this.parent !== null) {
-			if(this.parent.left === this) {
+
+		if (this.parent !== null) {
+			if (this.parent.left === this) {
+
 				this.parent.left = x;
 				createConnection(this.parent.id, x.id, 'L');
 			} else {
+
 				this.parent.right = x;
 				createConnection(this.parent.id, x.id, 'R');
 			}
 		}
 		destroyConnection(y.id, x.id);
 		x.parent = this.parent;
-		if(this.parent !== null) {
+		if (this.parent !== null) {
 			destroyConnection(this.parent.id, this.id);
 		}
 		x.left = this;
-		if(T2 !== null) {
+		if (T2 !== null) {
 			destroyConnection(x.id, T2.id);
 		}
 		createConnection(x.id, this.id, 'L');
 		this.parent = x;
 		destroyConnection(this.id, y.id);
 		x.right = y;
-		if(T3 !== null) {
+		if (T3 !== null) {
 			destroyConnection(x.id, T3.id);
 		}
 		createConnection(x.id, y.id, 'R');
 		y.parent = x;
 		this.right = T2;
-		if(T2 !== null) {
+		if (T2 !== null) {
 			createConnection(this.id, T2.id, 'R');
 		}
 		y.left = T3;
-		if(T3 !== null) {
+		if (T3 !== null) {
 			createConnection(y.id, T3.id, 'L');
 		}
+
 		let h1 = (this.left !== null) ? this.left.height : -1;
 		let h2, h3, h4;
-		if(T2 !== null) {
+
+		if (T2 !== null) {
 			T2.parent = this;
 			h2 = T2.height;
 		} else {
 			h2 = -1;
 		}
-		if(T3 !== null) {
+
+		if (T3 !== null) {
 			T3.parent = y;
 			h3 = T3.height;
 		} else {
 			h3 = -1;
 		}
-		if(y.right !== null) {
+
+		if (y.right !== null) {
 			h4 = y.right.height;
 		} else {
 			h4 = -1;
 		}
+
 		this.height = Math.max(h1, h2) + 1;
 		y.height = Math.max(h3, h4) + 1;
 		x.height = Math.max(y.height, this.height) + 1;
+
 		return x;
 	}
+
 	RightLeftRotation() {
 		const y = this.left;
 		const x = y.right;
 		const T2 = x.left;
 		const T3 = x.right;
-		if(this.parent !== null) {
-			if(this.parent.left === this) {
+
+		if (this.parent !== null) {
+			if (this.parent.left === this) {
 				this.parent.left = x;
 				createConnection(this.parent.id, x.id, 'L');
 			} else {
@@ -475,56 +634,63 @@ class BinaryTreeNode {
 		}
 		destroyConnection(y.id, x.id);
 		x.parent = this.parent;
-		if(this.parent !== null) {
+		if (this.parent !== null) {
 			destroyConnection(this.parent.id, this.id);
 		}
 		x.left = y;
-		if(T2 !== null) {
+		if (T2 !== null) {
 			destroyConnection(x.id, T2.id);
 		}
 		createConnection(x.id, y.id, 'L');
 		y.parent = x;
 		destroyConnection(this.id, y.id);
 		x.right = this;
-		if(T3 !== null) {
+		if (T3 !== null) {
 			destroyConnection(x.id, T3.id);
 		}
 		createConnection(x.id, this.id, 'R');
 		this.parent = x;
 		this.left = T3;
-		if(T3 !== null) {
+		if (T3 !== null) {
 			createConnection(this.id, T3.id, 'L');
 		}
 		y.right = T2;
-		if(T2 !== null) {
+		if (T2 !== null) {
 			createConnection(y.id, T2.id, 'R');
 		}
+
 		let h1, h2, h3, h4;
-		if(y.left !== null) {
+
+		if (y.left !== null) {
 			h1 = y.left.height;
 		} else {
 			h1 = -1;
 		}
-		if(T2 !== null) {
+
+		if (T2 !== null) {
 			T2.parent = y;
 			h2 = T2.height;
 		} else {
 			h2 = -1;
 		}
-		if(T3 !== null) {
+
+		if (T3 !== null) {
 			T3.parent = this;
 			h3 = T3.height;
 		} else {
 			h3 = -1;
 		}
-		if(this.right !== null) {
+
+		if (this.right !== null) {
 			h4 = this.right.height;
 		} else {
 			h4 = -1;
 		}
+
 		this.height = Math.max(h3, h4) + 1;
 		y.height = Math.max(h1, h2) + 1;
 		x.height = Math.max(y.height, this.height) + 1;
+
 		return x;
 	}
 }
@@ -532,33 +698,39 @@ class BinaryTreeNode {
 function Status(n) {
 	let h1, h2;
 	let s;
-	if(n.left !== null) {
+
+	if (n.left !== null) {
 		h1 = n.left.height;
 	} else {
 		h1 = -1;
 	}
-	if(n.right !== null) {
+
+	if (n.right !== null) {
 		h2 = n.right.height;
 	} else {
 		h2 = -1;
 	}
-	if(h1 === h2) {
+
+	if (h1 === h2) {
 		s = "PB";
-	} else if(h1 - h2 === 1) {
+	} else if (h1 - h2 === 1) {
 		s = "LH";
-	} else if(h2 - h1 === 1) {
+	} else if (h2 - h1 === 1) {
 		s = "RH";
-	} else if(h1 - h2 === 2) {
+	} else if (h1 - h2 === 2) {
 		s = "LIB";
-	} else if(h2 - h1 === 2) {
+	} else if (h2 - h1 === 2) {
 		s = "RIB";
 	}
+
 	return s;
 }
 
 function changeBoxShadow(objectId, color) {
 	var element = document.getElementById(objectId);
-	if(element) {
+
+	if (element) {
+
 		element.style.boxShadow = `0 0 15px ${color}`;
 	} else {
 		console.error('Element with ID ' + objectId + ' not found.');
@@ -567,7 +739,9 @@ function changeBoxShadow(objectId, color) {
 
 function changeTextColor(objectId, textColor) {
 	var element = document.getElementById(objectId);
-	if(element) {
+
+	if (element) {
+
 		element.style.color = textColor;
 	} else {
 		console.error('Element with ID ' + objectId + ' not found.');
@@ -578,8 +752,9 @@ function createBlinkingEffect(objectId) {
 	var redColor = 'red';
 	var blueColor = 'blue';
 	var isRed = true;
+
 	var blinkingInterval = setInterval(function() {
-		if(isRed) {
+		if (isRed) {
 			changeBoxShadow(objectId, blueColor);
 			changeTextColor(objectId, 'white');
 		} else {
@@ -588,6 +763,7 @@ function createBlinkingEffect(objectId) {
 		}
 		isRed = !isRed;
 	}, 500);
+
 	setTimeout(function() {
 		clearInterval(blinkingInterval);
 		changeBoxShadow(objectId, 'gold');
@@ -597,10 +773,13 @@ function createBlinkingEffect(objectId) {
 
 function destroyNode(elementId) {
 	var elementToRemove = document.getElementById(elementId);
-	if(elementToRemove) {
+
+	if (elementToRemove) {
 		var contentElement = document.querySelector('.content');
-		if(contentElement.contains(elementToRemove)) {
+
+		if (contentElement.contains(elementToRemove)) {
 			contentElement.removeChild(elementToRemove);
+
 		} else {
 			console.error('Element with ID ' + elementId + ' is not a child of .content.');
 		}
@@ -612,93 +791,114 @@ function destroyNode(elementId) {
 function exchangeElementIds(elementId1, elementId2) {
 	var element1 = document.getElementById(elementId1);
 	var element2 = document.getElementById(elementId2);
-	if(element1 && element2) {
+
+	if (element1 && element2) {
+
 		var tempId = element1.id;
 		element1.id = element2.id;
 		element2.id = tempId;
+
 	} else {
 		console.error('One or both elements not found.');
 	}
 }
+
 class Tree {
 	constructor() {
 		this.size = 0;
 		this.root = null;
 	}
+
 	positionY() {
 		let q = [];
 		let depth = -1;
 		let nodeCount = 0;
 		let currentNode;
-		const totalHeight = canvas.height - 150;
+		const totalHeight = canvas.height - 110;
 		let verticalSpacing = Number.MAX_VALUE;
-		if(this.root !== null) {
-			verticalSpacing = totalHeight / (this.root.height + 1);
+		if (this.root !== null) {
+			verticalSpacing = totalHeight / (this.root.height + 0.5);
 		}
-		if(this.root === null) {
+		if (this.root === null) {
 			return verticalSpacing;
 		}
 		q.push(this.root);
-		while(q.length > 0) {
+		while (q.length > 0) {
 			depth++;
 			nodeCount = q.length;
-			while(nodeCount > 0) {
+
+			while (nodeCount > 0) {
 				currentNode = q[0];
 				const element = document.getElementById(currentNode.id);
-				if(depth == 0) {
+				if (depth == 0) {
 					const verticalPosition = 100;
 					element.style.top = verticalPosition + "px";
 				} else {
 					const verticalPosition = 100 + depth * verticalSpacing;
 					element.style.top = verticalPosition + "px";
 				}
-				if(currentNode.left !== null) {
+				if (currentNode.left !== null) {
 					q.push(currentNode.left);
 				}
-				if(currentNode.right !== null) {
+
+				if (currentNode.right !== null) {
 					q.push(currentNode.right);
 				}
+
 				q.shift();
 				nodeCount--;
 			}
 		}
+
 		return verticalSpacing;
 	}
+
 	positionX() {
 		const stack = [];
 		let curr = this.root;
-		let gap = canvas.width / (this.size + 1);
+
+		let gap = (canvas.width - 50) / (this.size + 1);
 		let i = 1;
-		while(curr !== null || stack.length > 0) {
-			while(curr !== null) {
+		while (curr !== null || stack.length > 0) {
+
+			while (curr !== null) {
+
 				stack.push(curr);
 				curr = curr.left;
 			}
+
 			curr = stack.pop();
 			const element = document.getElementById(curr.id);
+
 			element.style.left = i * gap + "px";
 			i++;
+
 			curr = curr.right;
 		}
-		return(i - 1) * gap;
+		return (i - 1) * gap;
 	}
+
 	insert(value) {
 		const node = new BinaryTreeNode(value);
 		node.id = "a" + time;
 		var desiredHTML = `<div id=${"a"+time} class="node">${value}</div>`;
 		targetElement.insertAdjacentHTML('beforeend', desiredHTML);
 		time++;
-		if(this.root === null) {
+
+		if (this.root === null) {
 			this.size = 0;
 			this.root = node;
+
 		} else {
 			let temp = this.root;
 			let temppar = this.root;
 			let temp2 = null;
 			let z;
 			let o = 0;
-			while(temp !== null) {
-				if(value > temp.value) {
+
+			while (temp !== null) {
+
+				if (value > temp.value) {
 					temppar = temp;
 					temp = temp.right;
 				} else {
@@ -706,49 +906,56 @@ class Tree {
 					temp = temp.left;
 				}
 			}
-			if(value > temppar.value) {
+
+			if (value > temppar.value) {
 				temppar.right = node;
 				node.parent = temppar;
 				createConnection(temppar.id, node.id, 'R');
+
 			} else {
 				temppar.left = node;
 				node.parent = temppar;
 				createConnection(temppar.id, node.id, 'L');
 			}
 			temp2 = node.parent;
-			while(temp2 !== null) {
+
+			while (temp2 !== null) {
 				let h1 = (temp2.left !== null) ? temp2.left.height : -1;
 				let h2 = (temp2.right !== null) ? temp2.right.height : -1;
+
 				temp2.height = Math.max(h1, h2) + 1;
-				if(Status(temp2) === "LIB") {
-					if(temp2.left !== null && Status(temp2.left) === "RH") {
+
+				if (Status(temp2) === "LIB") {
+					if (temp2.left !== null && Status(temp2.left) === "RH") {
 						z = temp2.RightLeftRotation();
-						if(z.parent === null) {
+						if (z.parent === null) {
 							this.root = z;
 						}
 					} else {
 						z = temp2.RightRightRotation();
-						if(z.parent === null) {
+						if (z.parent === null) {
 							this.root = z;
 						}
 					}
-				} else if(Status(temp2) === "RIB") {
-					if(temp2.right !== null && Status(temp2.right) === "LH") {
+				} else if (Status(temp2) === "RIB") {
+					if (temp2.right !== null && Status(temp2.right) === "LH") {
 						z = temp2.LeftRightRotation();
-						if(z.parent === null) {
+						if (z.parent === null) {
 							this.root = z;
 						}
 					} else {
 						z = temp2.LeftLeftRotation();
-						if(z.parent === null) {
+						if (z.parent === null) {
 							this.root = z;
 						}
 					}
 				}
+
 				temp2 = temp2.parent;
 			}
 		}
 		this.size++;
+
 		this.canvasResize();
 	}
 	remove(k) {
@@ -756,8 +963,9 @@ class Tree {
 		let temppar = this.root;
 		let temp2 = null;
 		let z;
-		while(temp !== null && temp.value !== k) {
-			if(k > temp.value) {
+
+		while (temp !== null && temp.value !== k) {
+			if (k > temp.value) {
 				temppar = temp;
 				temp = temp.right;
 			} else {
@@ -765,19 +973,23 @@ class Tree {
 				temp = temp.left;
 			}
 		}
-		if(temp === null) {
+
+		if (temp === null) {
 			return "NOT FOUND!";
 		}
+
 		this.size--;
-		if(this.size === 0) {
+
+		if (this.size === 0) {
 			destroyNode(this.root.id);
 			this.root.left = null;
 			this.root.right = null;
 			this.root = null;
 			return "done";
 		}
-		if(temp.left === null && temp.right === null) {
-			if(temppar.left === temp) {
+
+		if (temp.left === null && temp.right === null) {
+			if (temppar.left === temp) {
 				destroyConnection(temppar.id, temp.id);
 				temppar.left = null;
 				destroyNode(temp.id);
@@ -789,9 +1001,10 @@ class Tree {
 			temp2 = temppar;
 			temp.left = null;
 			temp.right = null;
-		} else if((temp.left === null && temp.right !== null) || (temp.left !== null && temp.right === null)) {
-			if(temp === this.root) {
-				if(temp.left !== null) {
+
+		} else if ((temp.left === null && temp.right !== null) || (temp.left !== null && temp.right === null)) {
+			if (temp === this.root) {
+				if (temp.left !== null) {
 					destroyConnection(temp.id, temp.left.id);
 					destroyNode(temp.id);
 				} else {
@@ -799,11 +1012,13 @@ class Tree {
 					destroyNode(temp.id);
 				}
 				this.root = (temp.left !== null) ? temp.left : temp.right;
+
 				this.root.parent = null;
+
 			} else {
-				if(temppar.right === temp) {
+				if (temppar.right === temp) {
 					destroyConnection(temppar.id, temp.id);
-					if(temp.left !== null) {
+					if (temp.left !== null) {
 						destroyConnection(temp.id, temp.left.id);
 						destroyNode(temp.id);
 						createConnection(temppar.id, temp.left.id, 'R');
@@ -814,11 +1029,13 @@ class Tree {
 						destroyNode(temp.id);
 						createConnection(temppar.id, temp.right.id, 'R');
 						temppar.right = temp.right;
+
 						temp.right.parent = temppar;
+
 					}
 				} else {
 					destroyConnection(temppar.id, temp.id);
-					if(temp.left !== null) {
+					if (temp.left !== null) {
 						destroyConnection(temp.id, temp.left.id);
 						destroyNode(temp.id);
 						createConnection(temppar.id, temp.left.id, 'L');
@@ -829,38 +1046,45 @@ class Tree {
 						destroyNode(temp.id);
 						createConnection(temppar.id, temp.right.id, 'L');
 						temppar.left = temp.right;
+
 						temp.right.parent = temppar;
+
 					}
 				}
 				temp2 = temppar;
 			}
 			temp.left = null;
 			temp.right = null;
+
 		} else {
 			let s, spar;
 			spar = temp;
 			s = temp.right;
-			while(s.left !== null) {
+			while (s.left !== null) {
 				spar = s;
 				s = s.left;
 			}
+
 			let tempnode = document.getElementById(temp.id);
 			tempnode.innerHTML = s.value;
 			let snode = document.getElementById(s.id);
 			snode.innerHTML = temp.value;
+
 			temp.value = s.value;
-			if(spar.id === temp.id) {
+
+			if (spar.id === temp.id) {
 				destroyConnection(spar.id, s.id);
 				spar.right = s.right;
 				destroyNode(s.id);
-				if(s.right !== null) {
+				if (s.right !== null) {
 					destroyConnection(s.id, s.right.id);
+
 					s.right.parent = spar;
 					createConnection(spar.id, s.right.id, 'R');
 				}
 			} else {
 				destroyConnection(spar.id, s.id);
-				if(s.right === null) {
+				if (s.right === null) {
 					destroyNode(s.id);
 					spar.left = null;
 				} else {
@@ -871,89 +1095,112 @@ class Tree {
 					createConnection(spar.id, s.right.id, 'L');
 				}
 			}
+
 			temp2 = spar;
 			s.left = null;
 			s.right = null;
+
 		}
-		while(temp2 !== null) {
+
+		while (temp2 !== null) {
 			let h1 = (temp2.left !== null) ? temp2.left.height : -1;
 			let h2 = (temp2.right !== null) ? temp2.right.height : -1;
+
 			temp2.height = Math.max(h1, h2) + 1;
-			if(Status(temp2) === "LIB") {
-				if(temp2.left !== null && Status(temp2.left) === "RH") {
+
+			if (Status(temp2) === "LIB") {
+				if (temp2.left !== null && Status(temp2.left) === "RH") {
 					z = temp2.RightLeftRotation();
-					if(z.parent === null) {
+					if (z.parent === null) {
 						this.root = z;
 					}
 				} else {
 					z = temp2.RightRightRotation();
-					if(z.parent === null) {
+					if (z.parent === null) {
 						this.root = z;
 					}
 				}
-			} else if(Status(temp2) === "RIB") {
-				if(temp2.right !== null && Status(temp2.right) === "LH") {
+			} else if (Status(temp2) === "RIB") {
+				if (temp2.right !== null && Status(temp2.right) === "LH") {
 					z = temp2.LeftRightRotation();
-					if(z.parent === null) {
+					if (z.parent === null) {
 						this.root = z;
 					}
 				} else {
 					z = temp2.LeftLeftRotation();
-					if(z.parent === null) {
+					if (z.parent === null) {
 						this.root = z;
 					}
 				}
 			}
+
 			temp2 = temp2.parent;
 		}
+
 		this.canvasResize();
 		return "done";
 	}
+
 	search(k) {
 		let temp = this.root;
-		while(temp !== null && temp.value !== k) {
-			if(k > temp.value) {
+		while (temp !== null && temp.value !== k) {
+			if (k > temp.value) {
 				temp = temp.right;
 			} else {
 				temp = temp.left;
 			}
 		}
-		if(temp === null) {
+		if (temp === null) {
 			return "NOT FOUND!";
 		}
+
 		createBlinkingEffect(temp.id);
 		return "FOUND!";
 	}
+
 	canvasResize() {
 		let r = this.positionX();
 		let g = this.positionY();
 		let sn = document.querySelector(".node");
-		if(r + sn.clientWidth >= canvas.width) {
+
+		if (r + sn.clientWidth >= canvas.width) {
+			console.log('helloo1');
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
 			canvas.width = 2 * canvas.width;
-		} else if(r + sn.clientWidth < canvas.width && canvas.width > window.innerWidth) {
+			if (canvas.height < window.innerHeight) {
+				canvas.height = window.innerHeight;
+			}
+		} else if (r + sn.clientWidth < canvas.width && canvas.width > window.innerWidth) {
+			console.log('helloo2');
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
 			canvas.width = canvas.width / 2;
 			r = this.positionX();
-			if(r + sn.clientWidth >= canvas.width) {
+			if (r + sn.clientWidth >= canvas.width) {
 				canvas.width = 2 * canvas.width;
+				if (canvas.height < window.innerHeight) {
+					canvas.height = window.innerHeight;
+				}
 			}
 		}
-		if(g <= sn.clientHeight / 2) {
+		if (g <= sn.clientHeight * 2) {
+			console.log('helloo3');
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
 			canvas.height = 2 * canvas.height;
-		} else if(g > sn.clientHeight / 2 && canvas.height > window.innerHeight) {
+		} else if (g > sn.clientHeight * 2 && canvas.height > window.innerHeight) {
+			console.log('helloo4');
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
 			canvas.height = canvas.height / 2;
 			g = this.positionY();
-			if(g <= sn.clientHeight / 2) {
+			if (g <= sn.clientHeight * 2) {
 				ctx.clearRect(0, 0, canvas.width, canvas.height);
 				canvas.height = 2 * canvas.height;
 			}
 		}
 		this.positionX();
 		this.positionY();
-		move('element');
+
+		move();
+
 		connect();
 	}
 }
@@ -975,38 +1222,50 @@ function clear() {
 document.getElementById('resetButton').addEventListener('click', clear);
 
 function resetPosition() {
+
 	avl.positionY();
+
 	avl.positionX();
+
 	connect();
 }
+
 document.getElementById('resetPositionButton').addEventListener('click', resetPosition);
 
 function removeDynamicScript(filename) {
 	var targetelement = "script";
 	var targetattr = "src";
 	var allsuspects = document.getElementsByTagName(targetelement);
-	for(var i = allsuspects.length - 1; i >= 0; i--) {
-		if(allsuspects[i] && allsuspects[i].getAttribute(targetattr) !== null && allsuspects[i].getAttribute(targetattr).indexOf(filename) !== -1) {
+
+	for (var i = allsuspects.length - 1; i >= 0; i--) {
+		if (allsuspects[i] && allsuspects[i].getAttribute(targetattr) !== null && allsuspects[i].getAttribute(targetattr).indexOf(filename) !== -1) {
 			allsuspects[i].parentNode.removeChild(allsuspects[i]);
 		}
 	}
 }
 document.addEventListener('DOMContentLoaded', () => {
+
 	document.getElementById("instructionsButton").addEventListener('click', () => {
+
 		let inst = document.querySelector(".instructions");
 		let loaded = document.querySelector(".loaded");
 		inst.style.display = 'block';
 		loaded.style.display = "none";
+
 		var canvas1 = document.querySelector('#canvas1')
 		var c1 = canvas1.getContext('2d')
+
 		canvas1.width = innerWidth
 		canvas1.height = innerHeight
 
 		function resizeCanvas() {
+
 			canvas1.width = window.innerWidth;
 			canvas1.height = window.innerHeight;
+
 			init();
 		}
+
 		let mouseDown = false
 		addEventListener('mousedown', () => {
 			mouseDown = true;
@@ -1015,7 +1274,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			mouseDown = false;
 		})
 		window.addEventListener('resize', resizeCanvas);
+
 		const colors = ['#2185C5', '#7ECEFD', '#FFF6E5', '#FF7F66', 'gold', 'greenyellow', 'purple']
+
 		class Particle {
 			constructor(x, y, radius, color) {
 				this.x = x
@@ -1023,6 +1284,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				this.radius = radius
 				this.color = color
 			}
+
 			draw() {
 				c1.beginPath()
 				c1.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
@@ -1032,15 +1294,19 @@ document.addEventListener('DOMContentLoaded', () => {
 				c1.fill()
 				c1.closePath()
 			}
+
 			update() {
 				this.draw()
 			}
 		}
+
 		let particles
 
 		function init() {
 			particles = []
-			for(let i = 0; i < 750; i++) {
+
+			for (let i = 0; i < 750; i++) {
+
 				const canvasWidth = canvas1.width + 1000
 				const canvasHeight = canvas1.height + 1000
 				const x = (Math.random() * canvasWidth) - canvasWidth / 2;
@@ -1049,7 +1315,9 @@ document.addEventListener('DOMContentLoaded', () => {
 				const color = colors[Math.floor(Math.random() * colors.length)]
 				particles.push(new Particle(x, y, radius, color));
 			}
+
 		}
+
 		let radians = 0;
 		let alpha = 1;
 
@@ -1063,21 +1331,26 @@ document.addEventListener('DOMContentLoaded', () => {
 			particles.forEach((particle) => {
 				particle.update()
 			})
+
 			c1.restore()
 			radians += 0.004
-			if(mouseDown && alpha >= 0.03) {
+			if (mouseDown && alpha >= 0.03) {
 				alpha -= 0.01
-			} else if(!mouseDown && alpha < 1) {
+			} else if (!mouseDown && alpha < 1) {
 				alpha += 0.01
 			}
+
 		}
+
 		init()
 		animate()
 	});
+
 	document.getElementById("return").addEventListener('click', () => {
 		let inst = document.querySelector(".instructions");
 		let loaded = document.querySelector(".loaded");
 		inst.style.display = "none";
 		loaded.style.display = "block";
+
 	});
 });
