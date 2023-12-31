@@ -1244,9 +1244,6 @@ function removeDynamicScript(filename) {
 		}
 	}
 }
-document.addEventListener('DOMContentLoaded', () => {
-
-	document.getElementById("instructionsButton").addEventListener('click', () => {
 
 		let inst = document.querySelector(".instructions");
 		let loaded = document.querySelector(".loaded");
@@ -1255,6 +1252,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		var canvas1 = document.querySelector('#canvas1')
 		var c1 = canvas1.getContext('2d')
+document.addEventListener('DOMContentLoaded', () => {
+
+	document.getElementById("instructionsButton").addEventListener('click', () => {
+
+
 
 		canvas1.width = innerWidth
 		canvas1.height = innerHeight
@@ -1352,6 +1354,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		let loaded = document.querySelector(".loaded");
 		inst.style.display = "none";
 		loaded.style.display = "block";
-
+		c1.clearRect(0,0,canvas1.width,canvas1.height);
 	});
 });
