@@ -1245,21 +1245,19 @@ function removeDynamicScript(filename) {
 	}
 }
 
+
+
+		var canvas1 = document.querySelector('#canvas1')
+		var c1 = canvas1.getContext('2d')
+		canvas1.width = innerWidth
+		canvas1.height = innerHeight
+document.addEventListener('DOMContentLoaded', () => {
+
+	document.getElementById("instructionsButton").addEventListener('click', () => {
 		let inst = document.querySelector(".instructions");
 		let loaded = document.querySelector(".loaded");
 		inst.style.display = 'block';
 		loaded.style.display = "none";
-
-		var canvas1 = document.querySelector('#canvas1')
-		var c1 = canvas1.getContext('2d')
-document.addEventListener('DOMContentLoaded', () => {
-
-	document.getElementById("instructionsButton").addEventListener('click', () => {
-
-
-
-		canvas1.width = innerWidth
-		canvas1.height = innerHeight
 
 		function resizeCanvas() {
 
